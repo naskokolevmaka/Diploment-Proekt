@@ -1,0 +1,11 @@
+﻿@page
+@model AccessDeniedModel
+@{
+    ViewData["Title"] = "Достъпът е отказан!";
+}
+
+<header>
+    <h1 class="text-danger">@ViewData["Title"]</h1>
+    <p class="text-danger">Нямате достът до тази страница.</p>
+    <p> @Html.ActionLink("Върни се към началото", "Index", "Home")</p>
+</header>

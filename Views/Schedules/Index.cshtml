@@ -1,0 +1,71 @@
+﻿@model IEnumerable<Airport.Models.Schedule>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Разписание на полети</h1>
+
+@if (User.IsInRole("Admin"))
+{
+    <p>
+        <a class="btn btn-sm btn-success" asp-action="Create">Добави ново</a>
+    </p>
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.scheduleDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.departureTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Destination.city)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Airline.airlineName)
+            </th>
+            @if (User.IsInRole("Admin"))
+            {
+                <th></th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.scheduleDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.departureTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Destination.city)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Airline.airlineName)
+            </td>
+            @if (User.IsInRole("Admin"))
+            {
+                <td>
+                    <a class="btn btn-sm btn-warning" asp-action="Edit" asp-route-id="@item.flightId">Редактирай</a>
+                    <a class="btn btn-sm btn-info" asp-action="Details" asp-route-id="@item.flightId">Детайли</a>
+                    <a class="btn btn-sm btn-danger" asp-action="Delete" asp-route-id="@item.flightId">Изтрий</a>
+                </td>
+            }
+            
+        </tr>
+}
+    </tbody>
+</table>

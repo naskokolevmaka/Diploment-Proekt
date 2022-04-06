@@ -1,0 +1,81 @@
+﻿@model IEnumerable<Airport.Models.Ticket>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@if (User.IsInRole("Admin"))
+{
+    <h1>Мениджър на Билети</h1>
+
+    <p>
+        <a class="btn btn-sm btn-success" asp-action="Create">Добави нов</a>
+    </p>
+}
+else
+{
+    <h1>История на резервации</h1>
+    <p>
+        <a asp-action="Create">Резервирай Билет</a>
+    </p>
+}
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ticketCount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.dateOfJourney)
+            </th>
+            @if (User.IsInRole("Admin"))
+            {
+                <th>
+                    @Html.DisplayNameFor(model => model.User.Email)
+                </th>
+            }
+            <th>
+                @Html.DisplayNameFor(model => model.Schedule.flightId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Schedule.price)
+            </th>
+            @if (User.IsInRole("Admin"))
+            {
+                <th></th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ticketCount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.dateOfJourney)
+            </td>
+            @if (User.IsInRole("Admin"))
+            {
+                <td>
+                    @Html.DisplayFor(modelItem => item.User.Email)
+                </td>
+            }
+            <td>
+                @Html.DisplayFor(modelItem => item.Schedule.flightId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Schedule.price)
+            </td>
+            @if (User.IsInRole("Admin"))
+            {
+                <td>
+                    <a class="btn btn-sm btn-warning" asp-action="Edit" asp-route-id="@item.ticketId">Редактирай</a>
+                    <a class="btn btn-sm btn-info" asp-action="Details" asp-route-id="@item.ticketId">Детайли</a>
+                    <a class="btn btn-sm btn-danger" asp-action="Delete" asp-route-id="@item.ticketId">Изтрий</a>
+                </td>
+            }
+        </tr>
+}
+    </tbody>
+</table>

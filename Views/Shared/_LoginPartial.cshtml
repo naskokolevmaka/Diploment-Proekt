@@ -1,0 +1,45 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Airport.Areas.Identity.Data
+
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+
+<ul class="navbar-nav">
+@if (SignInManager.IsSignedIn(User))
+{
+     @if (User.IsInRole("Admin"))
+    {
+        <li class="nav-item dropdown">
+
+            <a id="manage" class="nav-link text-dark dropdown-toggle" asp-area="Identity" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Manage"><i class="fa-solid fa-user-shield"></i> Здравейте @UserManager.FindByNameAsync(UserManager.GetUserName(User)).Result.FirstName!</a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                @Html.ActionLink("Модифицирай Авиолинии", "Index", "Airlines", new object{}, new { @class = "dropdown-item"})
+                @Html.ActionLink("Модифицирай Дестинации", "Index", "Destinations", new object{}, new { @class = "dropdown-item"})
+                @Html.ActionLink("Модифицирай Разписание", "Index", "Schedules", new object{}, new { @class = "dropdown-item"})
+                @Html.ActionLink("Модифицирай Билети", "Index", "Tickets", new object{}, new { @class = "dropdown-item"})
+                <a id="manage" asp-area="Identity" asp-page="/Account/Manage/Index" class = "dropdown-item" title="Manage">Потребителски настройки</a>
+            </div>
+            </li>
+        }
+        else
+        {
+            <li class="nav-item">
+                <a id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage"><i class="fa-solid fa-user"></i> Здравейте @UserManager.FindByNameAsync(UserManager.GetUserName(User)).Result.FirstName!</a>
+            </li>
+        }
+        <li class="nav-item">
+        <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+            <button id="logout" type="submit" class="nav-link btn btn-link text-dark">Излез</button>
+        </form>
+    </li>
+}
+else
+{
+    <li class="nav-item">
+        <a class="nav-link text-dark" id="register" asp-area="Identity" asp-page="/Account/Register">Регистрация</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-dark" id="login" asp-area="Identity" asp-page="/Account/Login">Вход</a>
+    </li>
+}
+</ul>
